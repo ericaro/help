@@ -1,6 +1,31 @@
 // Package help allows you to define help sections
 // for your command line interfaces. It extends the flag package
 // to provide flag support for help section.
+//
+// The package defines a subcommand "help" that you can integrate into you main CLI.
+//
+// For example:
+//
+//      $ sbr help file
+//
+// The subcommand displays a summary of all the sections available or the detail for any section.
+//
+// Sections summary example:
+//
+//     $ sbr help
+//     Usage: sbr help  <section>
+//
+//     where <section> is one of:
+//        1.file             help relative to file management
+//
+// Sections details:
+//     $ sbr help file dir
+//     File
+//
+//     This document describe the file format
+//     ...
+//
+// Sections are written using Markdown, and displayed in the terminal output using ansi escape code.
 package help
 
 import (
@@ -83,7 +108,10 @@ func (h *HelpCommand) Section(name, description, content string) {
 	h.sections = append(h.sections, &section{name, description, content})
 }
 
-//Section adds a section on 'Command'
+//Section create a new section in 'Command'.
+// a section's name is used to identify it
+// a section's description is used in the summary
+// a section's content is a Markdown description.
 func Section(name, description, content string) {
 	Command.Section(name, description, content)
 }
