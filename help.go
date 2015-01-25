@@ -50,7 +50,10 @@ var (
 		blackfriday.EXTENSION_HEADER_IDS
 )
 
-//HelpCommand contains a bunch of sections to be displayed. It can parse "args"
+//HelpCommand contains a slice of sections representing the help subsystem.
+//
+// HelpCommand can parse "args"
+//
 // and it is compatible with rakyll command package.
 type HelpCommand struct {
 	sections []*section
@@ -65,11 +68,15 @@ func New() *HelpCommand {
 
 // unchanged flags parsing
 
-//Flags is to update 'fs' with current flags. Currently, there is no flags.
+//Flags is to update a FlagSet with the options for the helpCommand.
+//
+//Currently, there are no flags.
 func (h *HelpCommand) Flags(fs *flag.FlagSet) *flag.FlagSet { return fs }
 
 //Run execute the HelpCommand:
+//
 // with no args: prints the section summary
+//
 // with arguments print out every section found in the args, or an error message
 func (h *HelpCommand) Run(args []string) {
 	if len(args) == 0 {
@@ -103,14 +110,23 @@ func (h *HelpCommand) Run(args []string) {
 	}
 }
 
-//Section add a section to the HelpCommand
+//Section create a new section in 'Command'.
+//
+// a section's name is used to identify it
+//
+// a section's description is used in the summary
+//
+// a section's content is a Markdown description.
 func (h *HelpCommand) Section(name, description, content string) {
 	h.sections = append(h.sections, &section{name, description, content})
 }
 
 //Section create a new section in 'Command'.
+//
 // a section's name is used to identify it
+//
 // a section's description is used in the summary
+//
 // a section's content is a Markdown description.
 func Section(name, description, content string) {
 	Command.Section(name, description, content)
