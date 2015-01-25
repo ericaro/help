@@ -44,7 +44,7 @@ the package `github.com/ericaro/help` contains a `var Command` that implements R
 
 So you can just register the help subcommand:
 
-    command.On("help","display help", help.command, nil)
+    command.On("help","display help", help.Command, nil)
 
 
 # License

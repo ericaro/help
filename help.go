@@ -34,7 +34,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ericaro/ansifmt/renderer"
+	"github.com/ericaro/ansifmt/ansiblackfriday"
 	"github.com/russross/blackfriday"
 )
 
@@ -136,7 +136,7 @@ type section struct{ name, description, content string }
 
 //Print out the section help
 func (s *section) Print() {
-	renderer := renderer.NewAnsiRenderer()
+	renderer := ansiblackfriday.NewAnsiRenderer()
 
 	buf := new(bytes.Buffer)
 	_, err := buf.Write(blackfriday.Markdown(([]byte)(s.content), renderer, commonExtensions))
