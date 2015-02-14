@@ -84,8 +84,8 @@ func (h *HelpCommand) Run(args []string) {
 		fmt.Fprintf(os.Stderr, "Usage: %s %s  <section>\n\n", prog, helps)
 		fmt.Fprintf(os.Stderr, "where <section> is one of:\n")
 
-		for i, s := range h.sections {
-			fmt.Fprintf(os.Stderr, "  %v.%-15s %s\n", i+1, s.name, s.description)
+		for _, s := range h.sections {
+			fmt.Fprintf(os.Stderr, "  %-15s %s\n", s.name, s.description)
 		}
 		fmt.Fprintln(os.Stderr)
 
