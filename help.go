@@ -30,9 +30,10 @@ package help
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	"os"
+
+	"github.com/ericaro/compgen"
 
 	"github.com/ericaro/ansifmt/ansiblackfriday"
 	"github.com/russross/blackfriday"
@@ -71,7 +72,22 @@ func New() *HelpCommand {
 //Flags is to update a FlagSet with the options for the helpCommand.
 //
 //Currently, there are no flags.
-func (h *HelpCommand) Flags(fs *flag.FlagSet) *flag.FlagSet { return fs }
+//func (h *HelpCommand) Flags(fs *flag.FlagSet) *flag.FlagSet { return fs }
+
+//Compgens configures a Terminator to use the command itself for completion
+func (h *HelpCommand) Compgens(term *compgen.Terminator) { term.Argsgen(h) }
+
+//Compgen returns a list of completion arguments (part of the compgen protocol)
+func (h *HelpCommand) Compgen(args []string, inword bool) (comp []string, err error) {
+	// predict commands
+	_, prefix := compgen.Prefix(args, inword)
+	vals := make([]string, 0, len(h.sections))
+	for _, s := range h.sections {
+		vals = append(vals, s.name)
+	}
+
+	return compgen.ValueGen(vals)(prefix), nil
+}
 
 //Run execute the HelpCommand:
 //
